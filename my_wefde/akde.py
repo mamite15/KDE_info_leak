@@ -2,7 +2,7 @@ import numpy as np
 import random
 import statistics
 from sympy import *
-from sklearn import preprocessing
+#from sklearn import preprocessing
 
 import KDEpy
 
@@ -184,7 +184,6 @@ def discrete(features):
     return discrete_or_not
 #確率密度推定
 def akde_cal(feature,web_num):
-    
     print("start calculate akde ...")
     #インスタンス数
     size = len(feature)
@@ -208,7 +207,7 @@ def akde_cal(feature,web_num):
     #x,y = FFTKDE(kernel='gaussian', bw=0.001).fit(feature).evaluate()
     #z = FFTKDE(kernel='gaussian', bw= 0.001).fit(feature).evaluate(x)
     lx=x.tolist()
-    sample_list = random.sample(lx,int(50/web_num))
+    sample_list = random.sample(lx,int(5000/web_num))
 
     #print("size:" + str(size) + ",bw:" + str(band_width))
     #print("sample:" + str(sample_list))

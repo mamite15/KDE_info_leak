@@ -4,14 +4,14 @@ import akde
 import info_leak
 
 #ウェブサイト数
-#WEBSITE_NUMBER=20
-WEBSITE_NUMBER=2
+WEBSITE_NUMBER=20
+#WEBSITE_NUMBER=2
 #特徴の数
-#FEATURE_NUMBER=3043
-FEATURE_NUMBER=1
+FEATURE_NUMBER=3043
+#FEATURE_NUMBER=1
 #特徴量のインスタンス数
-#FEATURES_INSTANCE=1000
-FEATURES_INSTANCE=100
+FEATURES_INSTANCE=1000
+#FEATURES_INSTANCE=100
 
 def input_pkl():
     #ファイル名指定
@@ -33,9 +33,9 @@ def output_pkl(leakage):
 def main():
     #pickleファイルからfeatures配列取り出し
     #features[特徴名][webサイト番号][特徴量サンプル]作成
-    #features = input_pkl()
+    features = input_pkl()
     
-    #"""
+    """
     one = [[1] * 20,[1] * 20]
     two = [[2] * 30,[2] * 30]
     three = [[3] * 50,[3] * 50]
@@ -44,7 +44,7 @@ def main():
         features[i].extend(two[i])
         features[i].extend(three[i])
     print(features)
-    #"""
+    """
 
         
     #各特徴の情報漏洩量(H(w)-H(W|F))
@@ -54,6 +54,7 @@ def main():
     h_w = info_leak.cal_hw(WEBSITE_NUMBER)
 
 
+    cnt=0
     #各特徴について
     for i in range(0,FEATURE_NUMBER):
 
@@ -62,11 +63,12 @@ def main():
         
         #各webサイトについて
         for j in range(0,WEBSITE_NUMBER):
-
+            cnt+=1
+            print("スタート:" + str(cnt) + "回目")
             #ある特徴について考える(昇順にしておく)
             #print("i:"+ str(i) + ",j:" + str(j))
-            #feature_kind = sorted(features[i][j])
-            feature_kind = features[j]
+            feature_kind = sorted(features[i][j])
+            #feature_kind = features[j]
             #各webサイトの条件付き確率密度関数(モンテカルロのpdf(wi|F(i))のやつ)
             pdf_list = []
 
@@ -80,9 +82,10 @@ def main():
 
         #特徴の情報漏洩量計算
         leakage.append(h_w - h_wf)
+        print(str(i+1) + "個目の情報漏えい量測定終了:" + str(h_w - h_wf))
 
     #結果をpklファイルに保存
-    #output_pkl(leakage)
+    output_pkl(leakage)
 
     #結果出力
     print("leakage" + str(leakage))
